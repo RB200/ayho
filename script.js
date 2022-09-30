@@ -21,6 +21,9 @@ function showModal(id){
     window.addEventListener('click',(e)=>{
         if(e.target  === modal){
             modal.style.display = 'none'
+            var modalText = document.getElementById('modal-text')
+            modalText.innerHTML = ''
+
         }
     })
     
@@ -59,7 +62,14 @@ function showModal(id){
     }
 }
 
-
+var forwardSpan = document.getElementById('forward')
+var backSpan = document.getElementById('back')
+forwardSpan.addEventListener('click',()=>{
+    console.log('hi')
+})
+backSpan.addEventListener('click',()=>{
+    console.log('bye')
+})
 
 //for(var i=dom;i < dom + 35;i++){
     for(var i = 1; i < 31; i++){
@@ -69,29 +79,35 @@ function showModal(id){
     date.innerHTML = i
     day.setAttribute('id',`day-${i}`)
     day.setAttribute('class','day')
-    day.setAttribute('onclick','showModal(this.id); modal.style.display = "block"; getEventsForDay(months[month], id.toString().split("-")[1])')
+    day.setAttribute('onclick','showModal(this.id); modal.style.display = "block"; getEventsForDay( id.toString().split("-")[1], months[month], year)')
     day.appendChild(date)
     calendarDiv.appendChild(day)
    
 }
 
-var cal_header = document.getElementById('calendar-header')
+var cal_header = document.getElementById('month-name')
 cal_header.innerHTML = `${months[month]} ${year}`
 
 
-function getEventsForDay(month,day){
+function getEventsForDay(day,month,year){
     console.log(day)
-    firebase.firestore().collection('events').get().then((doc)=>{
-        console.log(doc.where('day','==',29))
-    })
-    //firebase.firestore().collection('events').get().then((querySnapshot)=>{
-    //    querySnapshot.forEach((doc)=>{
-    //        var modalText = document.getElementById('modal-text')
-    //        
-    //        var data = doc.data()
-    //        console.log(data)
-    //        modalText.innerHTML = data.description
-    //
-    //    })
+    //firebase.firestore().collection('events').get().then((doc)=>{
+    //    console.log(doc.where('day','==',29))
     //})
+    firebase.firestore().collection('events').get().then((querySnapshot)=>{
+        querySnapshot.forEach((doc)=>{
+
+            var modalText = document.getElementById('modal-text')
+            
+            var data = doc.data()
+            
+            console.log(doc.id, data)
+            console.log(data.date.day, data.date.month, data.date.year, parseInt(day), month, year)
+            if(parseInt(data.date.day) === parseInt(day) && data.date.month === month && data.date.year === year){
+                modalText.innerHTML = data.description
+            }
+            
+
+        })
+    })
 }
