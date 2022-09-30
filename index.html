@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBpWC78XASTlBZVs3yRYEYEPZ-FxVGSe5w",
+            authDomain: "ayho-86cdc.firebaseapp.com",
+            projectId: "ayho-86cdc",
+            storageBucket: "ayho-86cdc.appspot.com",
+            messagingSenderId: "239308410546",
+            appId: "1:239308410546:web:f14a53c71463e1114c83ab"
+        };
+      
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+      </script>
+
+</head>
+<body>
+    
+    <div id="head-container-container">
+        <div id="head-container">
+            <h1 id="heading"></h1>
+        </div>    
+    </div>
+    
+    
+    
+    <script>
+
+        var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+        var months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+
+        
+        setInterval(()=>{
+            var date = new Date()
+            var dotw = date.getDay()
+            var month = date.getMonth()
+            var dom = date.getDate()
+            var year = date.getFullYear()
+            var hour = date.getHours()
+            var minute = date.getMinutes()
+            var seconds = date.getSeconds()
+            var ampm = 'am'
+            if(hour > 12){
+                hour = hour - 12
+                ampm = 'pm'
+            }
+            if(minute.toString().length === 1){
+                minute = `0${minute}`
+            }
+            if(seconds.toString().length === 1){
+                seconds = `0${seconds}`
+            }
+            var f = `It is ${hour}:${minute}:${seconds} ${ampm} on ${days[dotw]}, ${months[month]} ${dom}, ${year}`
+            document.getElementById('heading').innerHTML = `Hello, ${f}`
+        ,1000})
+           
+        
+
+    </script>
+    
+    <div id="modal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h1 id="modal-header"></h1>
+          <p id="modal-text"></p>
+        </div>
+      
+      </div>
+      <div id="calendar-container">
+        <div id="calendar-header">
+            <h1></h1>
+        </div>
+        <div id="calendar"></div>
+      </div>
+
+      <script src="./script.js"></script>
+</body>
+</html>
