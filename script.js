@@ -1,5 +1,22 @@
-var mwtod = ['January','March','May','July','August','October','December']
-var mwtd = ['April','June','September','November']
+var data = {
+    'months': {
+        'January' : 31,
+        'February' : 28,
+        'March' : 31,
+        'April' : 30,
+        'May' : 31,
+        'June' : 30,
+        'July' : 31,
+        'August' : 31,
+        'September' : 30,
+        'October' : 31,
+        'November' : 30,
+        'December' : 31,
+
+    }
+}
+
+
 var date = new Date()
 
 var dotw = date.getDay()
@@ -44,48 +61,43 @@ function showModal(id){
     modalHeader.innerHTML = `Events planned for ${days[dotw]}, ${months[month]} ${id.toString().split('-')[1]}, ${year}: <br>`
     //modalText.innerHTML 
     console.log(months[month])
-    console.log(year % 4)
-    if(mwtd.includes(months[month])){
-        var days_in_current_month = 30
-    }
-    else if(mwtod.includes(months[month])){
-        var days_in_current_month = 31
-    }
-    else{
-        if(year % 4 === 0){
-            var days_in_current_month = 29
-        }
-        else{
-            var days_in_current_month = 28
-        }
-        
-    }
+
 }
 
 var forwardSpan = document.getElementById('forward')
 var backSpan = document.getElementById('back')
 forwardSpan.addEventListener('click',()=>{
-    console.log('hi')
+    month += 1
+    var cal_header = document.getElementById('month-name')
+    cal_header.setAttribute('class','not-selectable')
+    cal_header.innerHTML = `${months[month]} ${year}`
 })
 backSpan.addEventListener('click',()=>{
-    console.log('bye')
+    month -= 1
+    var cal_header = document.getElementById('month-name')
+    cal_header.setAttribute('class','not-selectable')
+    cal_header.innerHTML = `${months[month]} ${year}`
 })
 
 //for(var i=dom;i < dom + 35;i++){
     for(var i = 1; i < 31; i++){
     var calendarDiv = document.getElementById('calendar')
     var day = document.createElement('div')
-    var date = document.createElement('h1')
-    date.innerHTML = i
+    var dateEl = document.createElement('h1')
+    dateEl.innerHTML = i
+    dateEl.setAttribute('class','not-selectable')
     day.setAttribute('id',`day-${i}`)
     day.setAttribute('class','day')
     day.setAttribute('onclick','showModal(this.id); modal.style.display = "block"; getEventsForDay( id.toString().split("-")[1], months[month], year)')
-    day.appendChild(date)
+    day.appendChild(dateEl)
     calendarDiv.appendChild(day)
-   
+    if(i === dom){
+        day.style.backgroundColor = 'orange'
+    }
 }
 
 var cal_header = document.getElementById('month-name')
+cal_header.setAttribute('class','not-selectable')
 cal_header.innerHTML = `${months[month]} ${year}`
 
 
@@ -111,3 +123,30 @@ function getEventsForDay(day,month,year){
         })
     })
 }
+function getData(form) {
+    var formData = new FormData(form);
+    console.log(Object.fromEntries(formData));
+
+    if(Object.fromEntries(formData).name === 'Wise Mystical Tree'){
+        var doc = document.querySelector('body')
+        var pic = document.createElement('img')
+        pic.setAttribute('src','./artworks-EcUsidnDBPcL9XiX-cJz3GA-t500x500.jpg')
+        pic.setAttribute('width','100%')
+        pic.setAttribute('height','100%')
+
+        doc.appendChild(pic)
+    }
+}
+  
+document.getElementById("myForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    var f1 = document.getElementById('title').reset()
+    getData(event.target);
+});
+
+function getDaysInMonth(month){
+    if(data.months[month]){
+        console.log('hi')
+    }
+}
+
